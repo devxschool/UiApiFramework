@@ -16,7 +16,7 @@ Feature: Amazon Search
     Then All results should contain 'Iphone' in the title
 
   Scenario: Item Details
-      When User enters 'Iphone' in the search box
+      When User enters 'Ball' in the search box
       And User selects the first 'Iphone'
       Then User should see the price in the detail
 
@@ -28,6 +28,17 @@ Feature: Amazon Search
     Then User should see 'Iphone' in the cart
     And User should see the price in the detail
     But User shouldnt see the 'Iphone' characterics
+
+
+
+
+
+
+
+
+
+
+
 
 
 
