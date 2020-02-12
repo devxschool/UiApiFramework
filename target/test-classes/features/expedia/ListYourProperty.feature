@@ -1,6 +1,5 @@
 @expedia
 Feature: List Your Property
-
   Scenario: New window for property listing
     Given the user is on the main expedia page
     When the user clicks on 'list your property button'

@@ -1,6 +1,7 @@
 package step_defs;
 
 import com.sun.xml.internal.ws.policy.AssertionSet;
+import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -105,9 +106,17 @@ public class EtsyLoginSteps {
         }
     }
 
+    //@Then("^the following items should be present in the cart$")
+    //public void theFollowingItemsShouldBePresentInTheCart(List<Map<String, String>> itemsAndCounts) {
+        //System.out.println(itemsAndCounts);
+
+    //}
+    //
     @Then("^the following items should be present in the cart$")
-    public void theFollowingItemsShouldBePresentInTheCart(List<Map<String, String>> itemsAndCounts) {
-        System.out.println(itemsAndCounts);
+    public void theFollowingItemsShouldBePresentInTheCart(DataTable itemsAndCounts) {
+        List<List<String>> table = itemsAndCounts.raw();
+
+        System.out.println(table.get(1).get(0));
 
     }
 

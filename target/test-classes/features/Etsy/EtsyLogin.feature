@@ -51,9 +51,15 @@ Feature: Etsy login functionality
       | Elon      | Musk     | elonMusk@gmail.com       | 1112223333  |
       | Steve     | Jobs     | stevejobs@devxschool.com | 34355567777 |
     Then the following accounts should be created
-      | firstName | lastName | email                    | phoneNum      |
-      | John      | Doe      | johnDoe@gmail.com        | 999-000-2222  |
-      | Elon      | Musk     | elonMusk@gmail.com       | 111-222-3333  |
-      | Steve     | Jobs     | stevejobs@devxschool.com | 343-5556-7777 |
+      | firstName | lastName | email                    | phoneNum    |
+      | John      | Doe      | johnDoe@gmail.com        | 9990002222  |
+      | Elon      | Musk     | elonMusk@gmail.com       | 1112223333  |
+      | Steve     | Jobs     | stevejobs@devxschool.com | 34355567777 |
+
+
+
+
+
+
 
 
