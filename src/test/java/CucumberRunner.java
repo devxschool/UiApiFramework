@@ -4,9 +4,9 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = {"classpath:features/expedia"},
+        features = {"classpath:features/restapi","classpath:features/expedia"},
         glue = {"step_defs"},
-        //tags = "@expedia",
-        dryRun = true)
+        tags = "@api_post",
+        dryRun = false)
 public class CucumberRunner {
 }
