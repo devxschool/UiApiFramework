@@ -6,7 +6,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         features = {"classpath:features/restapi","classpath:features/expedia"},
         glue = {"step_defs"},
-        tags = "@api_post",
+        tags = "@api_putWithJsonObject",
         dryRun = false)
 public class CucumberRunner {
 }

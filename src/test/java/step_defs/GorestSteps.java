@@ -5,13 +5,17 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import io.restassured.RestAssured;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import utilities.RestAPIUtils;
 
 import java.io.File;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class GorestSteps {
@@ -53,7 +57,9 @@ public class GorestSteps {
     public void verifyThatStatusCodeIs(int statusCode) throws Throwable {
         response.prettyPeek();
 
-//        assertEquals(statusCode,response.getStatusCode());
+        JsonPath jsonPath = response.jsonPath();
+        System.out.println("Status Code: "+ jsonPath.getInt("_meta.code"));
+        assertEquals(statusCode,jsonPath.getInt("_meta.code"));
 
 
     }
@@ -67,5 +73,67 @@ public class GorestSteps {
                 .body(new File("src/test/resources/user.json"))
                 .and()
                 .post("/public-api/users");
+    }
+
+    @And("^send HTTP GET request with user_id \"([^\"]*)\"$")
+    public void sendHTTPGETRequestWithUser_id(String arg0) throws Throwable {
+
+        response =
+                requestSpecification
+                .given()
+                .get("/public-api/users/"+arg0)
+                .then()
+                .assertThat()
+                .body("_meta.code",equalTo(200))
+                .and()
+                .contentType(ContentType.JSON)
+                .body("result.first_name",equalTo("Sheldon"))
+                .body("result.last_name",equalTo("Pfannerstill"))
+                .extract()
+                .response();
+
+
+    }
+
+    @And("^send HTTP POST request with JsonObject$")
+    public void sendHTTPPOSTRequestWithJsonObject() {
+        response =
+                requestSpecification
+                .body(RestAPIUtils.createMockUser())
+                .post("/public-api/users")
+                .then()
+                .assertThat()
+                .body("_meta.code", is(201))
+                .body("_meta.success",equalTo(true))
+                .body("result.first_name",nullValue())
+                 .log().ifValidationFails(LogDetail.URI)
+                .extract().response();
+
+        response.prettyPrint();
+    }
+
+    @And("^send HTTP PUT request with JsonObject and user_id \"([^\"]*)\"$")
+    public void sendHTTPPUTRequestWithJsonObjectAndUser_id(int id) throws Throwable {
+
+//       PATHPARAM
+//        response =
+//                requestSpecification
+//                        .body(RestAPIUtils.createMockUser())
+//                        .and()
+//                        .pathParam("id",id)
+//                        .put("/public-api/users/{id}");
+////                   /public-api/users/6
+
+//        QUERY PARAM
+
+        response =
+                requestSpecification
+                .when()
+                .queryParam("gender","female")
+                .queryParam("first_name","Jena")
+                .get("/public-api/users");
+//                /public-api/users?gender=female&first_name=Jena
+        response.prettyPrint();
+
     }
 }
