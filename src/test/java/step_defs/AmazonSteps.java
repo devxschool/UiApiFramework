@@ -60,7 +60,7 @@ public class AmazonSteps {
         System.out.println("User should see the price");
     }
     @And("^User is logged in$")
-    public void userIsLoggedIn() {
+    public void asdasd() {
     }
     @And("^User adds the selected item to the cart$")
     public void userAddsTheSelectedItemToTheCart() {

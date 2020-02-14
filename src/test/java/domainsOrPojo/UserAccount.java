@@ -1,4 +1,4 @@
-package domains;
+package domainsOrPojo;
 
 public class UserAccount {
 

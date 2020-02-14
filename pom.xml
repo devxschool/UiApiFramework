@@ -138,6 +138,7 @@
                                 <configuration>
                                     <includes>
                                         <include>**/SmokeTest.java</include>
+                                        <include>**/SmokeTestsRunner.java</include>
                                     </includes>
                                 </configuration>
                                 <goals>

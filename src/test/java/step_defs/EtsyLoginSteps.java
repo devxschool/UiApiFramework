@@ -1,12 +1,11 @@
 package step_defs;
 
-import com.sun.xml.internal.ws.policy.AssertionSet;
 import cucumber.api.DataTable;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domains.UserAccount;
+import domainsOrPojo.UserAccount;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.Assert;
 import org.openqa.selenium.By;
@@ -18,7 +17,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.ConfigReader;
 
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class EtsyLoginSteps {

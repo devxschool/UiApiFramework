@@ -1,7 +1,9 @@
+@API
 Feature: Gorest Rest API Testing
-Background: Setting up the base url and the headers
-  Given base url "https://gorest.co.in"
-  And set the headers
+
+  Background: Setting up the base url and the headers
+    Given base url "https://gorest.co.in"
+    And set the headers
 
   @api_get
   Scenario: Gorest GET request
@@ -27,3 +29,17 @@ Background: Setting up the base url and the headers
   @api_putWithJsonObject
   Scenario: Gorest PUT request
     And send HTTP PUT request with JsonObject and user_id "6"
+
+  @smoke
+  Scenario: Gorest Create Users
+    When the following users are created
+      | first_name | last_name | gender |
+      | John       | Doe       | male   |
+      | Elon       | Musk      | male   |
+      | Steve      | Jobs      | male   |
+    Then verify that status code is "201"
+    And the following user should be created
+      | message                            | first_name | last_name | gender |
+      | OK. Everything worked as expected. | John       | Doe       | male   |
+      | OK. Everything worked as expected. | Elon       | Musk      | male   |
+      | OK. Everything worked as expected. | Steve     | Jobs      | male   |
