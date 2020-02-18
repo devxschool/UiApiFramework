@@ -1,20 +1,26 @@
 package step_defs;
 
+import com.google.gson.Gson;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import domainsOrPojo.GoRestResponse;
 import domainsOrPojo.GoRestUser;
+import domainsOrPojo.ResponseBody;
+import domainsOrPojo.User;
 import io.restassured.RestAssured;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import utilities.MockDataGenerator;
 import utilities.RestAPIUtils;
 
 import java.io.File;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +33,7 @@ public class GorestSteps {
     RequestSpecification requestSpecification;
     Response response;
     List<Response> responses = new ArrayList<>();
-
+    Gson gson;
     @Given("^base url \"([^\"]*)\"$")
     public void baseUrl(String arg0) throws Throwable {
         RestAssured.baseURI = arg0;
@@ -80,12 +86,26 @@ public class GorestSteps {
     @And("^send HTTP POST request$")
     public void sendHTTPPOSTRequest() {
 
+        MockDataGenerator mockDataGenerator = new MockDataGenerator();
+
+        User user = new User(
+                mockDataGenerator.getFirst_name(),
+                mockDataGenerator.getLast_name(),
+                mockDataGenerator.getEmail(),
+                mockDataGenerator.getGender(),
+                "1990-12-12"
+        );
+        gson = new Gson();
+        String json = gson.toJson(user);  // serialization
         response =
                 requestSpecification
                         .and()
-                        .body(new File("src/test/resources/user.json"))
+                        .body(json)
                         .and()
                         .post("/public-api/users");
+
+
+        response.prettyPrint();
     }
 
     @And("^send HTTP GET request with user_id \"([^\"]*)\"$")
@@ -189,6 +209,39 @@ public class GorestSteps {
                 }
             }
         }
+
+
+    }
+
+    @When("^get all the users$")
+    public void getAllTheUsers() {
+
+       response =  requestSpecification
+               .and().get("/public-api/users");
+
+       gson = new Gson();
+
+
+       ResponseBody responseBody = gson.fromJson(response.asString(), ResponseBody.class);
+        //deserialization
+        System.out.println(responseBody.get_meta().isSuccess());
+
+
+        LocalDate currentDate = LocalDate.now();   // "2020-02-17"
+
+        for (User user: responseBody.getResult()) {
+        LocalDate dob = LocalDate.parse(user.getDob());
+
+        Period age = Period.between(dob,currentDate); // calculates difference between current and dob
+
+            if(age.getYears()>=10&age.getYears()<=50){
+                System.out.println(String.format("Email: %s and age %s",user.getEmail(),age.getYears()));
+
+            }
+        }
+
+
+
 
 
     }

@@ -15,7 +15,7 @@ Feature: Gorest Rest API Testing
   Scenario: Gorest POST request
     And send HTTP POST request
     And verify that response content-type is "application/json; charset=UTF-8"
-    Then verify that status code is "200"
+    Then verify that status code is "201"
 
   @api_getUser
   Scenario: Gorest GET request
@@ -43,3 +43,12 @@ Feature: Gorest Rest API Testing
       | OK. Everything worked as expected. | John       | Doe       | male   |
       | OK. Everything worked as expected. | Elon       | Musk      | male   |
       | OK. Everything worked as expected. | Steve     | Jobs      | male   |
+
+
+    @api-test
+    Scenario: Get all the users from gorest
+      When get all the users
+
+
+
+

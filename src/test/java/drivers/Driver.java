@@ -10,8 +10,9 @@ public class Driver {
 
     private static WebDriver driver;
 
-    public static WebDriver getDriver(){
+    public static WebDriver getDriver() {
         boolean headless = Boolean.parseBoolean(ConfigReader.getProperty("headless"));
+
        if(driver == null){
            switch(ConfigReader.getProperty("browser").toLowerCase()){
                case "chrome":
@@ -19,6 +20,13 @@ public class Driver {
                    break;
                case "firefox":
                    driver = FirefoxWebDriver.loadFirefoxDriver(headless);
+                   break;
+               case "sauceLabs":
+                   try {
+                       driver = SauceLabsDriver.loadSauceLabs();
+                   } catch (Exception e) {
+                       e.printStackTrace();
+                   }
                    break;
                default:
                    driver = ChromeWebDriver.loadChromeDriver(false);
