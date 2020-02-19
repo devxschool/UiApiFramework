@@ -1,9 +1,18 @@
 package domainsOrPojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreType;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+
+
 public class Meta {
 
     private boolean success;
     private int code;
+
+    @JsonIgnore
     private String message;
 
     public boolean isSuccess() {

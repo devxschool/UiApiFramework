@@ -1,11 +1,16 @@
 package domainsOrPojo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
 public class ResponseBody {
 
 private Meta _meta;
-private List<User> result;
+
+@JsonProperty("result")
+private List<User> users;
+
 
     public Meta get_meta() {
         return _meta;
@@ -15,11 +20,11 @@ private List<User> result;
         this._meta = _meta;
     }
 
-    public List<User> getResult() {
-        return result;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setResult(List<User> result) {
-        this.result = result;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

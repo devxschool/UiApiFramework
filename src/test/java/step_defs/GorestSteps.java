@@ -1,6 +1,9 @@
 package step_defs;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import cucumber.api.PendingException;
 import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -34,6 +37,9 @@ public class GorestSteps {
     Response response;
     List<Response> responses = new ArrayList<>();
     Gson gson;
+    MockDataGenerator mockDataGenerator;
+    ObjectMapper objectMapper;
+
     @Given("^base url \"([^\"]*)\"$")
     public void baseUrl(String arg0) throws Throwable {
         RestAssured.baseURI = arg0;
@@ -229,7 +235,7 @@ public class GorestSteps {
 
         LocalDate currentDate = LocalDate.now();   // "2020-02-17"
 
-        for (User user: responseBody.getResult()) {
+        for (User user: responseBody.getUsers()) {
         LocalDate dob = LocalDate.parse(user.getDob());
 
         Period age = Period.between(dob,currentDate); // calculates difference between current and dob
@@ -243,6 +249,57 @@ public class GorestSteps {
 
 
 
+
+    }
+
+    @When("^the users are created with the following emails \"([^\"]*)\"$")
+    public void theUsersAreCreatedWithTheFollowingEmails(String email) throws Throwable {
+
+        mockDataGenerator = new MockDataGenerator();
+
+        User user = new User(
+                mockDataGenerator.getFirst_name(),
+                mockDataGenerator.getLast_name(),
+                email,
+                mockDataGenerator.getGender(),
+                "1990-12-12"
+        );
+
+        objectMapper = new ObjectMapper();
+        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        // will ignore unrecognized properties
+
+        String json = objectMapper.writerWithDefaultPrettyPrinter()  // will do pretty print
+                                  .writeValueAsString(user); // Sereliazation
+
+       response =
+               requestSpecification
+               .body(json)
+               .and()
+               .post("/public-api/users");
+
+        System.out.println(json);
+
+    }
+
+    @Then("^verify that error message is \"([^\"]*)\"$")
+    public void verifyThatErrorMessageIs(String arg0) throws Throwable {
+
+
+    ResponseBody responseBody =  objectMapper.readValue(response.asString(),ResponseBody.class);
+    assertEquals(arg0,responseBody.getUsers().get(0).getMessage());
+
+
+
+    }
+
+    @Then("^verify that response status code is \"([^\"]*)\"$")
+    public void verifyThatResponseStatusCodeIs(int arg0) throws Throwable {
+
+      ResponseBody responseBody =  objectMapper.readValue(response.asString(),ResponseBody.class);
+
+      assertEquals(arg0,responseBody.get_meta().getCode());
+      System.out.println(responseBody.get_meta().getMessage());
 
     }
 }

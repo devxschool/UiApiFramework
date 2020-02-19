@@ -49,6 +49,21 @@ Feature: Gorest Rest API Testing
     Scenario: Get all the users from gorest
       When get all the users
 
+    @api_email_test
+    Scenario Outline: Verify invalid emails
+      When the users are created with the following emails "<emails>"
+      Then verify that response status code is "422"
+      Then verify that error message is "<errorMessage>"
+      Examples:
+      |emails    |           errorMessage            |
+      |test.com  |Email is not a valid email address.|
+      |amy.smith@|Email is not a valid email address.|
+      |          |Email cannot be blank.             |
+
+
+
+
+
 
 
 
