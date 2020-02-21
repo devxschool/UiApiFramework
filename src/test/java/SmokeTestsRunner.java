@@ -3,7 +3,7 @@ import cucumber.api.junit.Cucumber;
 import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
-@CucumberOptions(
+@CucumberOptions(format={"pretty", "html:target/cucumber","json:target/cucumber.json"},
         features = {"classpath:features"},
         glue = {"step_defs"},
         tags = "@smoke",
