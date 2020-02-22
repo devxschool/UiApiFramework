@@ -1,5 +1,8 @@
 # Compiled class file
 *.class
+*/target/*
+*/target/**
+*.iml
 
 # Log file
 *.log
@@ -21,3 +24,10 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+target/cucumber.json
+target/cucumber/formatter.js
+target/cucumber/index.html
+target/cucumber/jquery-1.8.2.min.js
+target/cucumber/report.js
+target/cucumber/style.css
+target/failsafe-reports/CucumberRunner.txt
