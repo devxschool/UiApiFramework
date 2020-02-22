@@ -1,4 +1,4 @@
-@API
+@API  @smoke
 Feature: Gorest Rest API Testing
 
   Background: Setting up the base url and the headers
@@ -6,7 +6,7 @@ Feature: Gorest Rest API Testing
     And set the headers
 
   @api_get
-  Scenario: Gorest GET request
+  Scenario: Gorest GET request 1
     And send HTTP GET request
     Then verify that response content-type is "application/json; charset=UTF-8"
     Then verify that status code is "200"
