@@ -1,0 +1,375 @@
+[
+  {
+    "line": 2,
+    "elements": [
+      {
+        "line": 4,
+        "name": "Setting up the base url and the headers",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 1036603465,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "base url \"https://gorest.co.in\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "https://gorest.co.in",
+                  "offset": 10
+                }
+              ],
+              "location": "GorestSteps.baseUrl(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 239986475,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "set the headers",
+            "match": {
+              "location": "GorestSteps.set_the_headers()"
+            },
+            "keyword": "And "
+          }
+        ]
+      },
+      {
+        "line": 59,
+        "name": "Verify invalid emails",
+        "description": "",
+        "id": "gorest-rest-api-testing;verify-invalid-emails;;2",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 6646386599,
+              "status": "passed"
+            },
+            "line": 54,
+            "name": "the users are created with the following emails \"test.com\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "test.com",
+                  "offset": 49
+                }
+              ],
+              "location": "GorestSteps.theUsersAreCreatedWithTheFollowingEmails(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 102167164,
+              "status": "passed"
+            },
+            "line": 55,
+            "name": "verify that response status code is \"422\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "422",
+                  "offset": 37
+                }
+              ],
+              "location": "GorestSteps.verifyThatResponseStatusCodeIs(int)"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 718824,
+              "status": "passed"
+            },
+            "line": 56,
+            "name": "verify that error message is \"Email is not a valid email address.\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Email is not a valid email address.",
+                  "offset": 30
+                }
+              ],
+              "location": "GorestSteps.verifyThatErrorMessageIs(String)"
+            },
+            "matchedColumns": [
+              1
+            ],
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "line": 52,
+            "name": "@api_email_test"
+          },
+          {
+            "line": 1,
+            "name": "@API"
+          }
+        ]
+      },
+      {
+        "line": 4,
+        "name": "Setting up the base url and the headers",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 112164,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "base url \"https://gorest.co.in\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "https://gorest.co.in",
+                  "offset": 10
+                }
+              ],
+              "location": "GorestSteps.baseUrl(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 2759523,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "set the headers",
+            "match": {
+              "location": "GorestSteps.set_the_headers()"
+            },
+            "keyword": "And "
+          }
+        ]
+      },
+      {
+        "line": 60,
+        "name": "Verify invalid emails",
+        "description": "",
+        "id": "gorest-rest-api-testing;verify-invalid-emails;;3",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 2364761114,
+              "status": "passed"
+            },
+            "line": 54,
+            "name": "the users are created with the following emails \"amy.smith@\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "amy.smith@",
+                  "offset": 49
+                }
+              ],
+              "location": "GorestSteps.theUsersAreCreatedWithTheFollowingEmails(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 3984932,
+              "status": "passed"
+            },
+            "line": 55,
+            "name": "verify that response status code is \"422\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "422",
+                  "offset": 37
+                }
+              ],
+              "location": "GorestSteps.verifyThatResponseStatusCodeIs(int)"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 506639,
+              "status": "passed"
+            },
+            "line": 56,
+            "name": "verify that error message is \"Email is not a valid email address.\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Email is not a valid email address.",
+                  "offset": 30
+                }
+              ],
+              "location": "GorestSteps.verifyThatErrorMessageIs(String)"
+            },
+            "matchedColumns": [
+              1
+            ],
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "line": 52,
+            "name": "@api_email_test"
+          },
+          {
+            "line": 1,
+            "name": "@API"
+          }
+        ]
+      },
+      {
+        "line": 4,
+        "name": "Setting up the base url and the headers",
+        "description": "",
+        "type": "background",
+        "keyword": "Background",
+        "steps": [
+          {
+            "result": {
+              "duration": 82746,
+              "status": "passed"
+            },
+            "line": 5,
+            "name": "base url \"https://gorest.co.in\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "https://gorest.co.in",
+                  "offset": 10
+                }
+              ],
+              "location": "GorestSteps.baseUrl(String)"
+            },
+            "keyword": "Given "
+          },
+          {
+            "result": {
+              "duration": 1496639,
+              "status": "passed"
+            },
+            "line": 6,
+            "name": "set the headers",
+            "match": {
+              "location": "GorestSteps.set_the_headers()"
+            },
+            "keyword": "And "
+          }
+        ]
+      },
+      {
+        "line": 61,
+        "name": "Verify invalid emails",
+        "description": "",
+        "id": "gorest-rest-api-testing;verify-invalid-emails;;4",
+        "type": "scenario",
+        "keyword": "Scenario Outline",
+        "steps": [
+          {
+            "result": {
+              "duration": 2236584557,
+              "status": "passed"
+            },
+            "line": 54,
+            "name": "the users are created with the following emails \"\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "",
+                  "offset": 49
+                }
+              ],
+              "location": "GorestSteps.theUsersAreCreatedWithTheFollowingEmails(String)"
+            },
+            "matchedColumns": [
+              0
+            ],
+            "keyword": "When "
+          },
+          {
+            "result": {
+              "duration": 4490742,
+              "status": "passed"
+            },
+            "line": 55,
+            "name": "verify that response status code is \"422\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "422",
+                  "offset": 37
+                }
+              ],
+              "location": "GorestSteps.verifyThatResponseStatusCodeIs(int)"
+            },
+            "keyword": "Then "
+          },
+          {
+            "result": {
+              "duration": 541013,
+              "status": "passed"
+            },
+            "line": 56,
+            "name": "verify that error message is \"Email cannot be blank.\"",
+            "match": {
+              "arguments": [
+                {
+                  "val": "Email cannot be blank.",
+                  "offset": 30
+                }
+              ],
+              "location": "GorestSteps.verifyThatErrorMessageIs(String)"
+            },
+            "matchedColumns": [
+              1
+            ],
+            "keyword": "Then "
+          }
+        ],
+        "tags": [
+          {
+            "line": 52,
+            "name": "@api_email_test"
+          },
+          {
+            "line": 1,
+            "name": "@API"
+          }
+        ]
+      }
+    ],
+    "name": "Gorest Rest API Testing",
+    "description": "",
+    "id": "gorest-rest-api-testing",
+    "keyword": "Feature",
+    "uri": "features/restapi/gorest.feature",
+    "tags": [
+      {
+        "line": 1,
+        "name": "@API"
+      }
+    ]
+  }
+]
