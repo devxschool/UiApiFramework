@@ -152,7 +152,7 @@
                             <execution>
                                 <configuration>
                                     <includes>
-                                        <include>**/CucumberRunner.java</include>
+                                        <include>**/SmokeTestsRunner.java</include>
                                     </includes>
                                 </configuration>
                                 <goals>
