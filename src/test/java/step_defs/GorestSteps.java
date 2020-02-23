@@ -18,6 +18,8 @@ import io.restassured.http.ContentType;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import utilities.MockDataGenerator;
 import utilities.RestAPIUtils;
 
@@ -27,11 +29,14 @@ import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class GorestSteps {
+
+    private static Logger LOGGER = LogManager.getLogger(GorestSteps.class);
 
     RequestSpecification requestSpecification;
     Response response;
@@ -179,7 +184,14 @@ public class GorestSteps {
     @When("^the following users are created$")
     public void theFollowingUsersAreCreated(List<GoRestUser> users) {
 
-        System.out.println(users);
+
+        LOGGER.debug("IM in debug mode so I want to print info with details " + users);
+        LOGGER.info("ABOUT TO SEND GO REST REQUEST ON THE FOLLOWING USERS ");
+        LOGGER.warn("You could break something");
+        LOGGER.error("Something was broken");
+        LOGGER.fatal("Things went horribly bad");
+
+
 
         for (GoRestUser user : users) {
 
@@ -206,12 +218,16 @@ public class GorestSteps {
                 System.out.println(String.format("Comparing first names expected %s and actual %s", expected.getFirst_name(), jsonPath.getString("result.first_name")));
 
                 if (jsonPath.getString("result.first_name").equalsIgnoreCase(expected.getFirst_name())) {
+                    LOGGER.info("Comparing the content of actual and expected users " + jsonPath.getString("result.first_name") + " " + expected.getFirst_name());
                     actual.then()
                             .assertThat()
                             .body("result.first_name", equalTo(expected.getFirst_name()))
                             .body("result.last_name", equalTo(expected.getLast_name()))
                             .body("result.gender", equalTo(expected.getGender()))
                             .log().ifValidationFails(LogDetail.URI);
+                }
+                else{
+                    LOGGER.error("Cannot compare because first names are not matching");
                 }
             }
         }
