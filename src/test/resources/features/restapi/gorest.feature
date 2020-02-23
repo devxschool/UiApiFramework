@@ -30,7 +30,7 @@ Feature: Gorest Rest API Testing
   Scenario: Gorest PUT request
     And send HTTP PUT request with JsonObject and user_id "6"
 
-  @smoke
+  @smoke @a
   Scenario: Gorest Create Users
     When the following users are created
       | first_name | last_name | gender |
@@ -42,23 +42,23 @@ Feature: Gorest Rest API Testing
       | message                            | first_name | last_name | gender |
       | OK. Everything worked as expected. | John       | Doe       | male   |
       | OK. Everything worked as expected. | Elon       | Musk      | male   |
-      | OK. Everything worked as expected. | Steve     | Jobs      | male   |
+      | OK. Everything worked as expected. | Steve      | Jobs      | male   |
 
 
-    @api-test
-    Scenario: Get all the users from gorest
-      When get all the users
+  @api-test
+  Scenario: Get all the users from gorest
+    When get all the users
 
-    @api_email_test
-    Scenario Outline: Verify invalid emails
-      When the users are created with the following emails "<emails>"
-      Then verify that response status code is "422"
-      Then verify that error message is "<errorMessage>"
-      Examples:
-      |emails    |           errorMessage            |
-      |test.com  |Email is not a valid email address.|
-      |amy.smith@|Email is not a valid email address.|
-      |          |Email cannot be blank.             |
+  @api_email_test
+  Scenario Outline: Verify invalid emails
+    When the users are created with the following emails "<emails>"
+    Then verify that response status code is "422"
+    Then verify that error message is "<errorMessage>"
+    Examples:
+      | emails     | errorMessage                        |
+      | test.com   | Email is not a valid email address. |
+      | amy.smith@ | Email is not a valid email address. |
+      |            | Email cannot be blank.              |
 
 
 
