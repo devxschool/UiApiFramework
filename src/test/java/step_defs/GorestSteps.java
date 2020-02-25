@@ -286,7 +286,7 @@ public class GorestSteps {
         // will ignore unrecognized properties
 
         String json = objectMapper.writerWithDefaultPrettyPrinter()  // will do pretty print
-                                  .writeValueAsString(user); // Sereliazation
+                                  .writeValueAsString(user); // Sereliazation java>json
 
        response =
                requestSpecification
@@ -318,4 +318,6 @@ public class GorestSteps {
       System.out.println(responseBody.get_meta().getMessage());
 
     }
+
+
 }
