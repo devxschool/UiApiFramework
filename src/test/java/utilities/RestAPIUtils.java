@@ -8,6 +8,8 @@ import domainsOrPojo.jira.CreateIssue;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 
+import static io.restassured.RestAssured.given;
+
 public class RestAPIUtils {
 
     private static JsonObject jsonObject;
@@ -33,7 +35,8 @@ public class RestAPIUtils {
 
     public static RequestSpecification connectToJiraAPI(String username, String token){
 
-        requestSpecification.auth().basic(
+        requestSpecification =
+    given().auth().preemptive().basic(
                 username,
                 token)
                 .contentType(ContentType.JSON)

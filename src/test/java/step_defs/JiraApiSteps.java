@@ -6,10 +6,7 @@ import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import domainsOrPojo.jira.CreateIssue;
-import domainsOrPojo.jira.Fields;
-import domainsOrPojo.jira.IssueType;
-import domainsOrPojo.jira.Project;
+import domainsOrPojo.jira.*;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -24,7 +21,7 @@ private RequestSpecification requestSpecification;
     public void connectToJiraAPI() {
         RestAssured.baseURI = ConfigReader.getProperty("jiraBaseUri");
 
-        RestAPIUtils.connectToJiraAPI(
+       requestSpecification =  RestAPIUtils.connectToJiraAPI(
                 ConfigReader.getProperty("jiraAPIUsername"),
                 ConfigReader.getProperty("jiraAPIToken"));
 
@@ -33,8 +30,10 @@ private RequestSpecification requestSpecification;
     @When("^create an issue type \"([^\"]*)\"$")
     public void createAnIssueType(String arg0) throws Throwable {
 
-        Project project = new Project("API Test");
-        IssueType issueType = new IssueType("Bug");
+        Project project = new Project("JAVA");
+        IssueType issueType = new IssueType(JiraIssueTypes.BUG.getIssueId());
+
+
 
         Fields fields = new Fields(
                project,
@@ -44,13 +43,21 @@ private RequestSpecification requestSpecification;
         );
 
         CreateIssue createIssue = new CreateIssue(fields);
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
 
 
+        System.out.println(RestAPIUtils.javaToJsonConverter(createIssue));
+
+        response = requestSpecification.and()
+                .body(RestAPIUtils.javaToJsonConverter(createIssue))
+                .post("rest/api/2/issue/");
+
+
+        response.prettyPrint();
     }
 
     @Then("^verify that issue was created successfully$")
     public void verifyThatIssueWasCreatedSuccessfully() {
+
+        response.then().statusCode(201);
     }
 }

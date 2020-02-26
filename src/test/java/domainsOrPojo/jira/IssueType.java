@@ -1,7 +1,10 @@
 package domainsOrPojo.jira;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class IssueType {
 
+    @JsonProperty("id")
     private String name;
 
     public String getName() {
