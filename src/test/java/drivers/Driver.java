@@ -21,11 +21,34 @@ public class Driver {
                case "firefox":
                    driver = FirefoxWebDriver.loadFirefoxDriver(headless);
                    break;
-               case "sauceLabs":
-                   try {
-                       driver = SauceLabsDriver.loadSauceLabs();
-                   } catch (Exception e) {
-                       e.printStackTrace();
+               case "saucelabs":
+                   switch (ConfigReader.getProperty("sauceLabPlatform")) {
+                       case "macandchrome":
+                       try {
+                           driver = SauceLabsDriver.loadSauceLabs();
+                       } catch (Exception e) {
+                           e.printStackTrace();
+                       }
+                       break;
+                       case "macandfirefox":
+                           try {
+                               driver = SauceLabsDriver.loadSauceLabsMacAndFireFox();
+                           } catch (Exception e) {
+                               e.printStackTrace();
+                           }
+                           break;
+
+                       case "windows10andfirefox":
+                           try {
+                               driver = SauceLabsDriver.loadSauceLabsWindows10AndFireFox();
+                           } catch (Exception e) {
+                               e.printStackTrace();
+                           }
+                           break;
+
+                       default:
+
+
                    }
                    break;
                default:
