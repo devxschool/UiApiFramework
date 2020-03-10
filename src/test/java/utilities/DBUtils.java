@@ -1,38 +1,101 @@
 package utilities;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import step_defs.GorestSteps;
+
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static utilities.ConfigReader.getProperty;
 
 //JDBC - Java Data base connection
 public class DBUtils {
 
-    public static String dbUrl = "jdbc:mysql://3.20.225.112:3306/db_devxschool";
+    private static Logger LOGGER = LogManager.getLogger(DBUtils.class);
+
+    private static Connection connection;
+    private static Statement statement;
+    private static ResultSet resultSet;
+
+    public static void establishConnection() {
+
+        LOGGER.debug("Establishing JDBC Connection to " + getProperty("dbUrl") + " username " + getProperty("dbUserName") + " password " + getProperty("dbPassword"));
+        LOGGER.info("Establishing JDBC Connection");
+
+        try {
+            //Loads the mysql jdbc driver class to the classpath.
+            Class.forName("com.mysql.jdbc.Driver");
+
+            //Establish connection by passing jdbc Url -- username -- password
+            connection = DriverManager.getConnection(getProperty("dbUrl"), getProperty("dbUserName"), getProperty("dbPassword"));
+
+            LOGGER.info("DB Connection is successfully established");
+
+        } catch (Exception e) {
+            LOGGER.error("Failed to establish connection to DB with url: " + getProperty("dbUrl") + " username:" + getProperty("dbUserName") + " password:" + getProperty("dbPassword"));
+            closeConnection();
+        }
+    }
+
+    /**
+     * This method can be dynamically used to query db
+     *
+     * @param sqlQuery
+     * @return -- list of maps. list represents rows. map represents the row, the object.
+     * @throws SQLException
+     */
+    public static List<Map<String, Object>> runSqlQuery(String sqlQuery) {
 
 
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
-        // Loads a Class to java classpath.
-        Class.forName("com.mysql.jdbc.Driver");
+        List<Map<String, Object>> dbResultList = new ArrayList<>();
 
-        //Establish the connection to DB -- we need url, username and password
-        Connection connection = DriverManager.getConnection(dbUrl,"devxschool", "DevxchooL");
+        try {
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery(sqlQuery);
 
-        Statement statement = connection.createStatement();
 
-        ResultSet resultSet = statement.executeQuery("select * from db_devxschool.employee where salary = (select max(salary) from db_devxschool.employee);");
+            //Result Meta is info about our result data.
+            ResultSetMetaData metaData = resultSet.getMetaData();
 
-        while (resultSet.next()){
+            int columnCount = metaData.getColumnCount(); //5
 
-            String firstName = resultSet.getString("first_name");
-            //System.out.println("First Name: " + firstName);
+            while (resultSet.next()) {
 
-            String lastName = resultSet.getString("last_name");
-            //System.out.println("Last Name: " + lastName);
+                Map<String, Object> rowMap = new HashMap<>();
 
-            int salary = resultSet.getInt("salary");
-            //System.out.println("Salary: " + salary);
+                for (int col = 1; col <= columnCount; col++) {
 
-            System.out.println(String.format("First Name:   %s \t \t  Last Name: %s  \t \t Salary: %d", firstName, lastName, salary));
+                    rowMap.put(metaData.getColumnName(col), resultSet.getObject(col));
+                }
+
+                dbResultList.add(rowMap);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to execute query");
+            closeConnection();
         }
 
+        return dbResultList;
+    }
 
+
+    public static void closeConnection() {
+        try {
+            if (resultSet != null) {
+                resultSet.close();
+            }
+            if (statement != null) {
+                statement.close();
+            }
+            if (connection != null) {
+                connection.close();
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to close the connection");
+        }
     }
 }
