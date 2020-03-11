@@ -1,5 +1,6 @@
 package utilities;
 
+import domainsOrPojo.DBType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import step_defs.GorestSteps;
@@ -21,17 +22,31 @@ public class DBUtils {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public static void establishConnection() {
+    public static void establishConnection(DBType dbType) {
 
         LOGGER.debug("Establishing JDBC Connection to " + getProperty("dbUrl") + " username " + getProperty("dbUserName") + " password " + getProperty("dbPassword"));
         LOGGER.info("Establishing JDBC Connection");
 
         try {
-            //Loads the mysql jdbc driver class to the classpath.
-            Class.forName("com.mysql.jdbc.Driver");
+            switch (dbType){
+                case ORACLE:
+                    Class.forName("com.oracle.jdbc.Driver");
+                    connection = DriverManager.getConnection(getProperty("dbUrl"), getProperty("dbUserName"), getProperty("dbPassword"));
+                case MYSQL:
+                    //Loads the mysql jdbc driver class to the classpath.
+                    Class.forName("com.mysql.jdbc.Driver");
 
-            //Establish connection by passing jdbc Url -- username -- password
-            connection = DriverManager.getConnection(getProperty("dbUrl"), getProperty("dbUserName"), getProperty("dbPassword"));
+                    //Establish connection by passing jdbc Url -- username -- password
+                    connection = DriverManager.getConnection(getProperty("dbUrl"), getProperty("dbUserName"), getProperty("dbPassword"));
+                    break;
+                case MARIADB:
+                    //Loads the mysql jdbc driver class to the classpath.
+                    Class.forName("com.mariadb.jdbc.Driver");
+
+                    //Establish connection by passing jdbc Url -- username -- password
+                    connection = DriverManager.getConnection(getProperty("dbUrl"), getProperty("dbUserName"), getProperty("dbPassword"));
+                    break;
+            }
 
             LOGGER.info("DB Connection is successfully established");
 
