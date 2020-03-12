@@ -13,8 +13,10 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import static org.junit.Assert.assertEquals;
 public class AmazonSteps {
+
     WebDriver driver;
     WebDriverWait wait;
+
     @Given("^User is on the main page$")
     public void user_is_on_the_main_page() throws Throwable {
         System.out.println("About Run Given Step");

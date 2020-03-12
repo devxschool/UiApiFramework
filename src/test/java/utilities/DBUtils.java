@@ -22,13 +22,13 @@ public class DBUtils {
     private static Statement statement;
     private static ResultSet resultSet;
 
-    public static void establishConnection(DBType dbType) {
+    public static void establishConnection(DBType dbType) throws SQLException {
 
         LOGGER.debug("Establishing JDBC Connection to " + getProperty("dbUrl") + " username " + getProperty("dbUserName") + " password " + getProperty("dbPassword"));
         LOGGER.info("Establishing JDBC Connection");
 
         try {
-            switch (dbType){
+            switch (dbType) {
                 case ORACLE:
                     Class.forName("com.oracle.jdbc.Driver");
                     connection = DriverManager.getConnection(getProperty("dbUrl"), getProperty("dbUserName"), getProperty("dbPassword"));
@@ -51,19 +51,21 @@ public class DBUtils {
             LOGGER.info("DB Connection is successfully established");
 
         } catch (Exception e) {
+            LOGGER.error(e.getMessage() + "Failed to establish connection to DB with url: " + getProperty("dbUrl") + " username:" + getProperty("dbUserName") + " password:" + getProperty("dbPassword"));
             LOGGER.error("Failed to establish connection to DB with url: " + getProperty("dbUrl") + " username:" + getProperty("dbUserName") + " password:" + getProperty("dbPassword"));
             closeConnection();
+            throw new SQLException("Failed to establish connection to DB with url: " + getProperty("dbUrl") + " username:" + getProperty("dbUserName") + " password:" + getProperty("dbPassword"));
         }
     }
 
     /**
      * This method can be dynamically used to query db
-     *
+     * Use this method for select queries only
      * @param sqlQuery
      * @return -- list of maps. list represents rows. map represents the row, the object.
      * @throws SQLException
      */
-    public static List<Map<String, Object>> runSqlQuery(String sqlQuery) {
+    public static List<Map<String, Object>> runSqlSelectQuery(String sqlQuery) throws SQLException {
 
 
         List<Map<String, Object>> dbResultList = new ArrayList<>();
@@ -90,27 +92,67 @@ public class DBUtils {
                 dbResultList.add(rowMap);
             }
         } catch (Exception e) {
+            LOGGER.error(e.getMessage());
             LOGGER.error("Failed to execute query");
             closeConnection();
+            throw new SQLException("Failed to execute query");
         }
 
         return dbResultList;
     }
 
-
-    public static void closeConnection() {
+    /**
+     * Use this method for deleting and truncating the tables
+     * @param sqlQuery
+     * @throws SQLException
+     */
+    public static void runSqlUpdateQuery(String sqlQuery) throws SQLException {
         try {
-            if (resultSet != null) {
-                resultSet.close();
-            }
-            if (statement != null) {
-                statement.close();
-            }
-            if (connection != null) {
-                connection.close();
-            }
+            statement = connection.createStatement();
+            statement.executeQuery(sqlQuery);
         } catch (Exception e) {
-            LOGGER.error("Failed to close the connection");
+            LOGGER.error(e.getMessage());
+            LOGGER.error("Failed to execute query");
+            closeConnection();
+            throw new SQLException("Failed to execute query");
         }
     }
-}
+
+
+    /**
+     * Use this method for insert Queries
+     * @param sqlQuery
+     * @return number of rows updated, or 0 when no action were taken
+     * @throws SQLException
+     */
+    public static int runSqlInsertQuery(String sqlQuery) throws SQLException {
+        int rowsUpdated = 0;
+        try {
+            statement = connection.createStatement();
+            rowsUpdated =  statement.executeUpdate(sqlQuery);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            LOGGER.error("Failed to execute Update query");
+            closeConnection();
+            throw new SQLException("Failed to execute Update query");
+        }
+        return rowsUpdated;
+    }
+
+
+        public static void closeConnection () {
+            try {
+                if (resultSet != null) {
+                    resultSet.close();
+                }
+                if (statement != null) {
+                    statement.close();
+                }
+                if (connection != null) {
+                    connection.close();
+                }
+            } catch (Exception e) {
+                LOGGER.error("Failed to close the connection");
+            }
+        }
+    }
