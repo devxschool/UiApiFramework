@@ -171,9 +171,38 @@
                                         <include>**/SmokeTestsRunner.java</include>
                                     </includes>
                                 </configuration>
-                                <goals>
-                                    <goal>integration-test</goal>
-                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>regressionAPI</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>2.21.0</version>
+                        <configuration>
+                            <excludes>
+                                <exclude>**/*</exclude>
+                            </excludes>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.21.0</version>
+                        <executions>
+                            <execution>
+                                <configuration>
+                                    <includes>
+                                        <include>**/RegressionAPITestsRunner.java</include>
+                                    </includes>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>

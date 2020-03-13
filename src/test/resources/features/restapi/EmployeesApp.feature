@@ -1,3 +1,4 @@
+@regressionAPI
 Feature: Get and Create Employees
 
 

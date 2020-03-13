@@ -1,4 +1,4 @@
-@API  @smoke
+@API  @smoke @regressionAPI
 Feature: Gorest Rest API Testing
 
   Background: Setting up the base url and the headers

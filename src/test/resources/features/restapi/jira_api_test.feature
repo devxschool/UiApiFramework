@@ -1,3 +1,6 @@
+
+
+@regressionAPI
 Feature: Jira API Test Scenarios
  Background:
    Given connect to Jira API
