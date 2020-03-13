@@ -203,6 +203,9 @@
                                         <include>**/RegressionAPITestsRunner.java</include>
                                     </includes>
                                 </configuration>
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
                             </execution>
                         </executions>
                     </plugin>
